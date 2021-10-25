@@ -62,112 +62,109 @@ zz = "{}{}{} ".format(color.W + '[',color.R + '+',color.W + ']') #xD
 cuerpo = "" #cuerpo del mensaje
 comp = "" #comprueva si hay nuevos mensajes
 esk = 0 #para la comprobación 
-wh = True #para el bucle
-
-#login
-username = getpass("{}{}".format(zz,color.G + "Correo: "))
-password = getpass("{}{}".format(zz,color.G + "Contraseña: "))
-
+log = True #para el bucle
+N = 1 #numero de mensajes a leer
 
 try:
-    try:
-        N = int(input("{}{}".format(zz,color.G + "Número de mensajes a leer ('Enter' = defauld [1]): ")))
-    except ValueError:
-        N = 1
-        print("{}{}".format(zz,color.G + "[1]"))
-        pass
-    while wh:
+    while log:
         try:
+            username = getpass("{}{}".format(zz, color.G + "username: "))
+            password = getpass("{}{}".format(zz, color.G + "passwod: "))
             imap = imaplib.IMAP4_SSL("imap.gmail.com")
             imap.login(username, password)
-            wh=False
+            log = False
         except:
-            whn=True
-            print("{}{}".format(zz,color.R + 'Invalid login'))
+            log = True
+            print("{}{}".format(zz, color.RR + "falied"))
             continue
-    while True:
-    	time.sleep(2)
-    	status, mensaje = imap.select("INBOX")
-    	mensaje = int(mensaje[0])
-    	for i in range(mensaje, mensaje -N, -1):
-    		try:
-    			res, mensaje = imap.fetch(str(i), "RFC822")
-    		except:
-    			break
-    		for respuesta in mensaje:
-    			if isinstance(respuesta, tuple):
-    				mensaje = email.message_from_bytes(respuesta[1])
-    				subject = decode_header(mensaje["Subject"])[0][0]
-
-    				if isinstance(subject, bytes):
-    					subject = subject.decode()
-    				from_ = mensaje.get("From")
-
-    				if mensaje.is_multipart():
-    					for part in mensaje.walk():
-    						content_type = part.get_content_type()
-    						content_disposition = str(part.get("Content-Disposition"))
-    						
-    						try:
-    							cuerpo = part.get_payload(decode=True).decode()
-    						except:
-    							pass
-
-    						if content_type == "text/plain" and "attachment" not in content_disposition:
-    							if cuerpo == comp:
-    								esk = 1
-    								pass
-    							else:
-    								print("{}{}".format(zz,color.G + "De: stalker122@srp.sgd"))
-    								print("{}{}{}".format(zz,color.G + "Tema: ", subject))
-    								print("{}{}\n\n{}".format(zz,color.G + "Correo:", cuerpo))
-    								esk = 0
-    								comp = cuerpo
-    								file = open("correos.txt", "w")
-    								file.write(cuerpo)
-    								file.close()
-    								time.sleep(.5)
-
-    	if esk == 0:
-    		with open("correos.txt", "r") as r:
-    			for linea in r:
-    				print(linea)
-
-    		patron = "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+" #expreción regular
-    		print("Buscando URLS.....")
-    		time.sleep(.5)
-    		try:
-    			urls = re.findall(patron, cuerpo)
-    			print("{}{}".format(zz,color.G + "URL Detectado"))
-    			chrome_opcions = Options()
-    			chrome_opcions.add_argument("--headless")
-    			driver = webdriver.Chrome(executable_path='./driver/chromedriver', options = chrome_opcions)
-    			#driver = webdriver.Chrome(executable_path='./driver/chromedriver')
-
-    			print("ABRIENDO...\n--------------------------------------------------------------------------------------")
-    			driver.get("https://www.shouldiclick.org/")
-
-    			abrir = driver.find_element_by_xpath('//*[@id="url_answer"]')
-    			abrir.send_keys(urls[0])
-    			entrar = driver.find_element_by_xpath('//*[@id="main_button"]')
-    			entrar.click()
-
-    			print("-------------------------------------------------------------------------------------")
-    			print("Analizando......\n______________________________________________________________________________________")
-    			time.sleep(5)
-    			gem = driver.find_elements_by_class_name('myCounter')
-    			enunciado = ["Gemelo Malvado","Estafa","Comportamiento peligroso","Envio de datos sin cifrar"]
-    			num = -1
-    			for gems in gem:
-    				num+=1
-    				print(enunciado[num], gems.text, "\n")
-    				driver.close()
-    		except:
-    			print("{}{}".format(zz,color.G + "URl No Detectado"))
-    			print("{}{}".format(zz,color.G + "Seguimos Buscando"))
-    			pass
-    	else:
-    		#print("seguimos buscando")
-    		continue
 except KeyboardInterrupt:
-	pass
+    pass
+#login
+try:
+    while True:
+        time.sleep(2)
+        status, mensaje = imap.select("INBOX")
+        mensaje = int(mensaje[0])
+        for i in range(mensaje, mensaje -N, -1):
+            try:
+                res, mensaje = imap.fetch(str(i), "RFC822")
+            except:
+                break
+            for respuesta in mensaje:
+                if isinstance(respuesta, tuple):
+                    mensaje = email.message_from_bytes(respuesta[1])
+                    subject = decode_header(mensaje["Subject"])[0][0]
+
+                    if isinstance(subject, bytes):
+                        subject = subject.decode()
+                    from_ = mensaje.get("From")
+
+                    if mensaje.is_multipart():
+                        for part in mensaje.walk():
+                            content_type = part.get_content_type()
+                            content_disposition = str(part.get("Content-Disposition"))
+                            
+                            try:
+                                cuerpo = part.get_payload(decode=True).decode()
+                            except:
+                                pass
+
+                            if content_type == "text/plain" and "attachment" not in content_disposition:
+                                if cuerpo == comp:
+                                    esk = 1
+                                    pass
+                                else:
+                                    print("{}{}".format(zz,color.G + "De: stalker122@srp.sgd"))
+                                    print("{}{}{}".format(zz,color.G + "Tema: ", subject))
+                                    print("{}{}\n\n{}".format(zz,color.G + "Correo:", cuerpo))
+                                    esk = 0
+                                    comp = cuerpo
+                                    file = open("correos.txt", "w")
+                                    file.write(cuerpo)
+                                    file.close()
+                                    time.sleep(.5)
+
+        if esk == 0:
+            with open("correos.txt", "r") as r:
+                for linea in r:
+                    print(linea)
+
+            patron = "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+" #expreción regular
+            print("{}{}".format(zz,color.G +"Buscando URLS..."))
+            time.sleep(.5)
+            try:
+                urls = re.findall(patron, cuerpo)
+                print("{}{}".format(zz,color.G + "URL Detectado"))
+                #chrome_opcions = Options()
+                #chrome_opcions.add_argument("--headless")
+                #driver = webdriver.Chrome(executable_path='./driver/chromedriver', options = chrome_opcions)
+                driver = webdriver.Chrome(executable_path='./driver/chromedriver')
+
+                print("{}{}".format(zz,color.G + "ABRIENDO..."))
+                driver.get("https://www.shouldiclick.org/")
+
+                abrir = driver.find_element_by_xpath('//*[@id="url_answer"]')
+                abrir.send_keys(urls[0])
+                entrar = driver.find_element_by_xpath('//*[@id="main_button"]')
+                entrar.click()
+
+                print("{}{}".format(zz,color.G + "Analizando..."))
+                time.sleep(5)
+                gem = driver.find_elements_by_class_name('myCounter')
+                enunciado = ["Gemelo Malvado","Estafa","Comportamiento peligroso","Envio de datos sin cifrar"]
+                num = -1
+                for gems in gem:
+                    num+=1
+                    print(enunciado[num], gems.text, "\n")
+                    time.sleep(2)
+                    driver.close()
+                    print("{}{}".format(zz,color.G + "Seguimos Buscando"))
+            except KeyboardInterrupt:
+                print("{}{}".format(zz,color.G + "URl No Detectado"))
+                print("{}{}".format(zz,color.G + "Seguimos Buscando"))
+                pass
+        else:
+            continue
+except KeyboardInterrupt:
+    print("{}{}".format(zz,color.GG + "Finish"))
+    pass
