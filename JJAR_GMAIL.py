@@ -129,11 +129,11 @@ try:
                 for linea in r:
                     print(linea)
 
-            patron = "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+" #expreción regular
             print("{}{}".format(zz,color.G +"Buscando URLS..."))
             time.sleep(.5)
-            try:
-                urls = re.findall(patron, cuerpo)
+            patron = "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+" #expreción regular
+            urls = re.findall(patron, cuerpo)
+            if patron in urls:
                 print("{}{}".format(zz,color.G + "URL Detectado"))
                 #chrome_opcions = Options()
                 #chrome_opcions.add_argument("--headless")
@@ -156,10 +156,9 @@ try:
                 for gems in gem:
                     num+=1
                     print(enunciado[num], gems.text, "\n")
-                    time.sleep(2)
-                    driver.close()
-                    print("{}{}".format(zz,color.G + "Seguimos Buscando"))
-            except KeyboardInterrupt:
+                driver.close()
+                print("{}{}".format(zz,color.G + "Seguimos Buscando"))
+            else:
                 print("{}{}".format(zz,color.G + "URl No Detectado"))
                 print("{}{}".format(zz,color.G + "Seguimos Buscando"))
                 pass
@@ -168,3 +167,4 @@ try:
 except KeyboardInterrupt:
     print("{}{}".format(zz,color.GG + "Finish"))
     pass
+
