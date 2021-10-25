@@ -156,6 +156,7 @@ try:
                 for gems in gem:
                     num+=1
                     print(enunciado[num], gems.text, "\n")
+                time.sleep(3)
                 driver.close()
                 print("{}{}".format(zz,color.G + "Seguimos Buscando"))
             else:
