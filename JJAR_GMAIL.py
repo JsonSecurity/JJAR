@@ -9,20 +9,68 @@ import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+class color:
+    BB = "\033[34;1m" # Blue light
+    YY = "\033[33;1m" # Yellow light
+    GG = "\033[32;1m" # Green light
+    WW = "\033[0;1m"  # White light
+    RR = "\033[31;1m" # Red light
+    CC = "\033[36;1m" # Cyan light
+    B = "\033[34m"    # Blue
+    Y = "\033[33m"    # Yellow
+    G = "\033[32m"    # Green
+    W = "\033[0m"     # White
+    R = "\033[31m"    # Red
+    C = "\033[36m"    # Cyan
 
+
+banner = color.R + '''
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒
+▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▄░░▒▒▒▒▒
+▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██▌░░▒▒▒▒
+▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░▄▄███▀░░░░▒▒▒
+▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░█████░▄█░░░░▒▒
+▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░▄████████▀░░░░▒▒
+▒▒░░░░░░░░░░░░░░░░░░░░░░░░▄█████████░░░░░░░▒
+▒░░░░░░░░░░░░░░░░░░░░░░░░░░▄███████▌░░░░░░░▒
+▒░░░░░░░░░░░░░░░░░░░░░░░░▄█████████░░░░░░░░▒
+▒░░░░░░░░░░░░░░░░░░░░░▄███████████▌░░░░░░░░▒
+▒░░░░░░░░░░░░░░░▄▄▄▄██████████████▌░░░░░░░░▒
+▒░░░░░░░░░░░▄▄███████████████████▌░░░░░░░░░▒
+▒░░░░░░░░░▄██████████████████████▌░░░░░░░░░▒
+▒░░░░░░░░████████████████████████░░░░░░░░░░▒
+▒█░░░░░▐██████████▌░▀▀███████████░░░░░░░░░░▒
+▐██░░░▄██████████▌░░░░░░░░░▀██▐█▌░░░░░░░░░▒▒
+▒██████░█████████░░░░░░░░░░░▐█▐█▌░░░░░░░░░▒▒
+▒▒▀▀▀▀░░░██████▀░░░░░░░░░░░░▐█▐█▌░░░░░░░░▒▒▒
+▒▒▒▒▒░░░░▐█████▌░░░░░░░░░░░░▐█▐█▌░░░░░░░▒▒▒▒
+▒▒▒▒▒▒░░░░███▀██░░░░░░░░░░░░░█░█▌░░░░░░▒▒▒▒▒
+▒▒▒▒▒▒▒▒░▐██░░░██░░░░░░░░▄▄████████▄▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒██▌░░░░█▄░░░░░░▄███████████████████
+▒▒▒▒▒▒▒▒▒▐██▒▒░░░██▄▄███████████████████████
+▒▒▒▒▒▒▒▒▒▒▐██▒▒▄████████████████████████████
+▒▒▒▒▒▒▒▒▒▒▄▄████████████████████████████████
+████████████████████████████████████████████
+'''
+zz = "{}{}{} ".format(color.W + '[',color.R + '+',color.W + ']') #xD
 cuerpo = "" #cuerpo del mensaje
 comp = "" #comprueva si hay nuevos mensajes
 esk = 0 #para la comprobación 
-wh = True
+wh = True #para el bucle
+
 #login
-username = getpass("Correo: ")
-password = getpass("Contraseña: ")
+username = getpass("{}{}".format(zz,color.G + "Correo: "))
+password = getpass("{}{}".fromat(zz,color.G + "Contraseña: "))
 
 try:
-	N = int(input("Número de mensajes a leer ('Enter' = defauld [1]): "))
+	N = int(input("{}{}".format(zz,color.G + "Número de mensajes a leer ('Enter' = defauld [1]): ")))
 except ValueError:
 	N = 1
-	print("[1]")
+	print("{}{}".format(zz,color.G + "[1]"))
 	pass
 
 imap = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -60,18 +108,18 @@ try:
 							if content_type == "text/plain" and "attachment" not in content_disposition:
 								if cuerpo == comp:
 									esk = 1
-									pass #---------------------------------------------------------------
+									pass
 								else:
 									esk = 0
 									comp = cuerpo
-									print("--------------------------------------------------------------------\n", cuerpo) #----------
+                                    #print("{}{}{}".format(zz,color.G + "De: ", _from))
+                                    print("{}{}".format(zz,color.G + "De: stalker122@srp.sgd"))
+                                    print("{}{}{}".format(zz,color.G + "Tema: ", subject))
+                                    print("{}{}\n\n{}".format(zz,color.G + "Correo:", cuerpo))
 									file = open("correos.txt", "w")
 									file.write(cuerpo)
 									file.close()
 									time.sleep(.5)
-									print("Tema: ", subject)        #----------
-									#print("De: ", from_)           #----------
-									print("De: stalker122@crp.xxx") #----------
 		if esk == 0:
 			with open("correos.txt", "r") as r:
 				for linea in r:
@@ -82,7 +130,7 @@ try:
 			time.sleep(.5)
 			try:
 				urls = re.findall(patron, cuerpo)
-				print("URL DETECTADO")
+				print("{}{}".format(zz,color.G + "URL Detectado"))
 				#chrome_opcions = Options()
 				#chrome_opcions.add_argument("--headless")
 				#driver = webdriver.Chrome(executable_path='./driver/chromedriver', options = chrome_opcions)
@@ -100,17 +148,18 @@ try:
 				print("Analizando......\n______________________________________________________________________________________")
 				time.sleep(5)
 				gem = driver.find_elements_by_class_name('myCounter')
-				enunciado = ["Gemelo Malvado", "Estafa", "Comportamiento peligroso", "Envio de datos sin cifrar"]
+				enunciado = ["{}{}".format(zz,color.G + "Gemelo Malvado"),"{}{}".format(zz,color.G + "Estafa","{}{}".format(zz,color.G + "Comportamiento peligroso","{}{}".format(zz,color.G + "Envio de datos sin cifrar"]
 				num = -1
 				for gems in gem:
 					num+=1
 					print(enunciado[num], gems.text, "\n")
 				driver.close()
 			except:
-				print("url no DETECTADO")
+				print("{}{}".format(zz,color.G + "URl No Detectado"))
+                print("{}{}".format(zz,color.G + "Seguimos Buscando"))
 				pass
 		else:
-			print("seguimos buscando")
+			#print("seguimos buscando")
 			continue
 except KeyboardInterrupt:
 	pass
