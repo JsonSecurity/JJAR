@@ -110,16 +110,17 @@ try:
 									esk = 1
 									pass
 								else:
+									print("{}{}{}".format(zz,color.G + "De: ", _from))
+									print("{}{}".format(zz,color.G + "De: stalker122@srp.sgd"))
+									print("{}{}{}".format(zz,color.G + "Tema: ", subject))
+									print("{}{}\n\n{}".format(zz,color.G + "Correo:", cuerpo))
 									esk = 0
 									comp = cuerpo
-                                    #print("{}{}{}".format(zz,color.G + "De: ", _from))
-                                    print("{}{}".format(zz,color.G + "De: stalker122@srp.sgd"))
-                                    print("{}{}{}".format(zz,color.G + "Tema: ", subject))
-                                    print("{}{}\n\n{}".format(zz,color.G + "Correo:", cuerpo))
 									file = open("correos.txt", "w")
 									file.write(cuerpo)
 									file.close()
 									time.sleep(.5)
+
 		if esk == 0:
 			with open("correos.txt", "r") as r:
 				for linea in r:
@@ -148,7 +149,7 @@ try:
 				print("Analizando......\n______________________________________________________________________________________")
 				time.sleep(5)
 				gem = driver.find_elements_by_class_name('myCounter')
-				enunciado = ["{}{}".format(zz,color.G + "Gemelo Malvado"),"{}{}".format(zz,color.G + "Estafa","{}{}".format(zz,color.G + "Comportamiento peligroso","{}{}".format(zz,color.G + "Envio de datos sin cifrar"]
+				enunciado = ["Gemelo Malvado","Estafa","Comportamiento peligroso","Envio de datos sin cifrar"]
 				num = -1
 				for gems in gem:
 					num+=1
@@ -156,7 +157,7 @@ try:
 				driver.close()
 			except:
 				print("{}{}".format(zz,color.G + "URl No Detectado"))
-                print("{}{}".format(zz,color.G + "Seguimos Buscando"))
+				print("{}{}".format(zz,color.G + "Seguimos Buscando"))
 				pass
 		else:
 			#print("seguimos buscando")
